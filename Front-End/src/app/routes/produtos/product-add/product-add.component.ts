@@ -1,15 +1,15 @@
-import { Product } from './../product.model';
-import { ProductService } from './../product.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Product } from 'src/app/core/models/product.model';
+import { ProductService } from 'src/app/core/requests/product.service';
 
 @Component({
-  selector: 'app-product-create',
-  templateUrl: './product-create.component.html',
-  styleUrls: ['./product-create.component.scss']
+  selector: 'app-product-add',
+  templateUrl: './product-add.component.html',
+  styleUrls: ['./product-add.component.scss']
 })
-export class ProductCreateComponent implements OnInit {
+export class ProductAddComponent implements OnInit {
 
   public product: Product = {
     name: '',

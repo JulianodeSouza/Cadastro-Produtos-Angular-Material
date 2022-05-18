@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { HttpClient } from "@angular/common/http";
-import { Product } from "./product.model";
 import { EMPTY, Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
+import { Product } from "../models/product.model";
 
 @Injectable({
   providedIn: "root",
@@ -12,7 +12,7 @@ export class ProductService {
   urlBack = "http://localhost:3001/products";
 
   constructor(private snackBar: MatSnackBar, private http: HttpClient) { }
-  
+
   // Mostrar pop-up ao concluir ações
   showMessage(msg: string, isError: boolean = false): void {
     this.snackBar.open(
@@ -70,7 +70,7 @@ export class ProductService {
 
   // Mensagem de erro
   errorHendler(e: any): Observable<any> {
-    console.log(e);    
+    console.log(e);
     this.showMessage("Não foi possível concluir a ação.", true);
     return EMPTY
   }

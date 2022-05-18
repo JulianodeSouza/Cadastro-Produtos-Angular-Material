@@ -6,16 +6,22 @@ table {
       padding-left: 1rem;
       color: #ff0000;
   }
-  
+
   i.edit {
       color: #7c7ceb;
   }
 
   button {
       background-color: #fff;
-      border: none; 
+      border: none;
   }
 
   .material-icons {
     cursor: pointer;
+  }
+
+  .button-navigate {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: end;
   }

@@ -7,19 +7,16 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 
-
-
 //Components
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from './components/template/header/header.component';
-import { NavComponent } from './components/template/nav/nav.component';
-import { FooterComponent } from './components/template/footer/footer.component';
-import { HomeComponent } from './views/home/home.component';
-import { ProductCrudComponent } from './views/product-crud/product-crud.component';
-import { ProductUpdateComponent } from './components/product/product-update/product-update.component';
-import { ProductCreateComponent } from './components/product/product-create/product-create.component';
-import { ProductReadComponent } from './components/product/product-read/product-read.component';
+import { HeaderComponent } from './shared/template/header/header.component';
+import { FooterComponent } from './shared/template/footer/footer.component';
+import { NavComponent } from './shared/template/nav/nav.component';
+import { HomeComponent } from './routes/home/home.component';
+import { ProductAddComponent } from './routes/produtos/product-add/product-add.component';
+import { ProductComponent } from './routes/produtos/product.component';
+import { ProductDetalhesComponent } from './routes/produtos/product-detalhes/product-detalhes.component';
 
 // Material
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -50,10 +47,9 @@ const maskConfig: Partial<IConfig> = {
     FooterComponent,
     NavComponent,
     HomeComponent,
-    ProductCrudComponent,
-    ProductCreateComponent,
-    ProductReadComponent,
-    ProductUpdateComponent,
+    ProductAddComponent,
+    ProductComponent,
+    ProductDetalhesComponent,
 
   ],
   imports: [
