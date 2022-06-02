@@ -2,47 +2,52 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product } from 'src/app/core/models/product.model';
-import { ProductService } from 'src/app/core/requests/product.service';
+import { ProductService } from 'src/app/core/requests/produtos/product.service';
+import { MessageService } from 'src/app/core/services/message/message.service';
 
 @Component({
   selector: 'app-product-add',
   templateUrl: './product-add.component.html',
   styleUrls: ['./product-add.component.scss']
 })
-export class ProductAddComponent implements OnInit {
+export class ProductAddComponent {
 
-  public product: Product = {
-    name: '',
-    price: null
-  };
+  public iProduct: Product;
 
-  public productForm: FormGroup;
+  public iProductForm: FormGroup;
 
-  constructor(private productService: ProductService, private router: Router, private formBuilder: FormBuilder) {
-    this.productForm = this.formBuilder.group({
+  constructor(
+    private cProductService: ProductService,
+    private cRouter: Router,
+    private cFormBuilder: FormBuilder,
+    private cMessageService: MessageService
+  ) {
+    this.inst();
+  }
+
+  private inst() {
+    this.iProduct = {
+      name: '',
+      price: null
+    };
+
+    this.iProductForm = this.cFormBuilder.group({
       name: ['', Validators.required],
       price: [null, Validators.required]
     });
   }
 
-  ngOnInit(): void {
-  }
-
   createProduct(): void {
-    this.productService.create(this.product).subscribe(() => {
-      this.productService.showMessage('Produto criado com sucesso!')
-      this.router.navigate(['/products'])
+    this.cProductService.create(this.iProduct).subscribe(() => {
+      this.cMessageService.showMessage('Produto criado com sucesso!')
+      this.cRouter.navigate(['/produtos'])
     }, err => {
       console.log(err);
-      this.productService.showMessage('Não foi possível criar o produto!')
+      this.cMessageService.showMessage('Não foi possível criar o produto!')
     });
-
   }
 
   cancel(): void {
-    this.router.navigate(['/products'])
+    this.cRouter.navigate(['/produtos'])
   }
-
 }
-
-

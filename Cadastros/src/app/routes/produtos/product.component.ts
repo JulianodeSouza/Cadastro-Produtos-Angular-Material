@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Product } from 'src/app/core/models/product.model';
-import { ProductService } from 'src/app/core/requests/product.service';
+import { ProductService } from 'src/app/core/requests/produtos/product.service';
+import { MessageService } from 'src/app/core/services/message/message.service';
 import { HeaderService } from 'src/app/shared/template/header/header.service';
 
 @Component({
@@ -10,50 +10,52 @@ import { HeaderService } from 'src/app/shared/template/header/header.service';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent {
 
-  products: Product[]
-  displayedColumns = ['id', 'name', 'price', 'action'];
+  public iProducts: Product[]
+  public iDisplayedColumns = ['id', 'name', 'price', 'action'];
 
   constructor(
-    private router: Router,
-    private headerService: HeaderService,
-    private productService: ProductService,
-    public dialog: MatDialog) {
-    headerService.headerData = {
+    private cRouter: Router,
+    private cHeaderService: HeaderService,
+    private cProductService: ProductService,
+    private cMessageService: MessageService
+  ) {
+    this.inst();
+    this.config();
+  }
+
+  private inst() {
+    this.cHeaderService.headerData = {
       title: 'Cadastro de Produtos',
       icon: 'storefront',
       routeUrl: '/products'
     }
   }
 
-  ngOnInit(): void {
-    this.consultarProdutos();
-  }
-
-  public consultarProdutos() {
-    this.productService.readProducts()
+  // Carrega os dados
+  public config() {
+    this.cProductService.readProducts()
       .subscribe($result => {
-        this.products = $result;
+        this.iProducts = $result;
       });
   }
 
-  // getDialogById() {
-  //   this.dialog.open();
-  // }
-
   public removerProduto(id: string) {
-    this.productService.deleteById(id).subscribe(() => {
-      this.productService.showMessage('Produto removido com sucesso!')
-      this.consultarProdutos();
+    this.cProductService.deleteById(id).subscribe(() => {
+      this.cMessageService.showMessage('Produto removido com sucesso!')
+      this.config();
     }, err => {
       console.log(err);
-      this.productService.showMessage('Não foi possível remover o produto!')
+      this.cMessageService.showMessage('Não foi possível remover o produto!')
     });
   }
 
-  navigateToProductCreate(): void {
-    this.router.navigate(['/adicionar'])
+  public editProduto(_Produto) {
+    this.cRouter.navigate(["/detalhes/" + _Produto]);
   }
 
+  navigateToProductCreate(): void {
+    this.cRouter.navigate(['/adicionar'])
+  }
 }

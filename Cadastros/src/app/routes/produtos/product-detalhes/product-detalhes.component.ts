@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/core/models/product.model';
-import { ProductService } from 'src/app/core/requests/product.service';
+import { ProductService } from 'src/app/core/requests/produtos/product.service';
+import { MessageService } from 'src/app/core/services/message/message.service';
 
 
 @Component({
@@ -10,35 +11,54 @@ import { ProductService } from 'src/app/core/requests/product.service';
   templateUrl: './product-detalhes.component.html',
   styleUrls: ['./product-detalhes.component.scss']
 })
-export class ProductDetalhesComponent implements OnInit {
+export class ProductDetalhesComponent {
 
   public iProduct: Product;
-  public productForm: FormGroup;
+  public iProductForm: FormGroup;
 
-  constructor(private productService: ProductService, private router: Router, private route: ActivatedRoute, private FormBuilder: FormBuilder) {
-    this.productForm =this.FormBuilder.group({
+  constructor(
+    private cProductService: ProductService,
+    private cRouter: Router,
+    private cRoute: ActivatedRoute,
+    private cFormBuilder: FormBuilder,
+    private cMessageService: MessageService
+  ) {
+    this.inst();
+    this.config();
+  }
+
+  // funcao de inicializacao das variaveis de validacao
+  private inst() {
+    this.iProduct = {
+      name: '',
+      price: 0
+    }
+
+    this.iProductForm = this.cFormBuilder.group({
       name: ['', Validators.required],
       price: [null, Validators.required]
     });
   }
 
-  ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id')
-    this.productService.readById(id).subscribe(product => {
-      this.iProduct = product;
-    })
+  // Carrega os dados
+  public config() {
+    const id = this.cRoute.snapshot.paramMap.get('id')
+    this.cProductService.readById(id)
+      .subscribe($return => {
+        this.iProduct = $return;
+      })
   }
 
+  // Atualiza o produto
   updateProduct(): void {
-    this.productService.update(this.iProduct).subscribe(() => {
-      this.productService.showMessage('Produto alterado com sucesso!')
-      this.router.navigate(['/products']);
-    })
-
+    this.cProductService.update(this.iProduct).subscribe(() => {
+      this.cMessageService.showMessage('Produto alterado com sucesso!')
+      this.cRouter.navigate(['/produtos']);
+    });
   }
 
   cancel(): void {
-    this.router.navigate(['/products']);
+    this.cRouter.navigate(['/produtos']);
   }
 
 }

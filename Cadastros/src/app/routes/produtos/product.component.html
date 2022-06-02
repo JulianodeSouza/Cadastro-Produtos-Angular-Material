@@ -1,3 +1,4 @@
+<app-loading></app-loading>
 <div class="button-navigate">
   <button mat-raised-button (click)="navigateToProductCreate()" color="primary">
     Novo Produto
@@ -5,7 +6,7 @@
 </div>
 
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="products">
+  <table mat-table [dataSource]="iProducts">
     <!-- Id Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>Código</th>
@@ -28,16 +29,16 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let row">
-        <a routerLink="/products/update/{{row.id}}">
+        <button (click)="editProduto(row.id)">
           <i class="material-icons edit"> edit </i>
-        </a>
+        </button>
         <button (click)="removerProduto(row.id)">
           <i class="material-icons delete"> delete </i>
         </button>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-header-row *matHeaderRowDef="iDisplayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: iDisplayedColumns;"></tr>
   </table>
 </div>
